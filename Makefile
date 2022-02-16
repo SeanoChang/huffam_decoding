@@ -2,8 +2,8 @@ CFLAGS = -std=c99 -g -Wall -Wshadow -Wvla -pedantic -Werror
 GCCALL = gcc -O3 -std=c99 -Wall -Wshadow -Wvla -pedantic
 GCC = gcc $(CFLAGS)
 EXEC = pa2
-OBJS =  pa2.o
-HOBJS = 
+OBJS =  pa2.o decode_tree.o huffman_tree.o char_list.o
+HOBJS = decode_tree.h huffman_tree.h char_list.h
 VALGRIND = valgrind --tool=memcheck --leak-check=yes --verbose
 
 
@@ -11,7 +11,8 @@ $(EXEC): $(OBJS) $(HOBJS)
 	$(GCC) $(OBJS) -o $(EXEC)
 
 test: $(EXEC)
-	./pa2 encoded/gophers_huff.hbt gophers_huff.tree gophers.ori gophers.count gophers.htree gophers.eval
+	mkdir outputs
+	./pa2 pa2_examples/encoded/gophers_huff.hbt outputs/gophers_huff.tree outputs/gophers.ori outputs/gophers.count outputs/gophers.htree outputs/gophers.eval
 
 memory: $(EXEC)
 	mkdir moutputs

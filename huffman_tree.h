@@ -1,15 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct TreeNode {
     char value;
-    long count;
-    TreeNode* left;
-    TreeNode* right;
+    char count;
+    bool leaf;
+    char* label;
+    struct TreeNode* left;
+    struct TreeNode* right;
 } TreeNode;
 
-TreeNode* buildHuffmanTree(TreeNode*);
+void buildCodingTree(TreeNode*, int*, long*);
 
-TreeNode* buildTreeNode(char, int);
+
+
+TreeNode* buildTreeNode(char, int, bool);
 
 void destroyTree(TreeNode*);
