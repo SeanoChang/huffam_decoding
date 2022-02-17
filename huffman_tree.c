@@ -24,6 +24,11 @@ void buildCodingTree(TreeNode* root, int* bp, long* pos){
     buildCodingTree(root->right, bp, pos);
 }
 
+void buildHuffTree(TreeNode* root, Header* charList){
+    
+}
+
+
 void writeLabel(TreeNode* tn, char* label, long *pos, int level){ 
     if(tn->leaf == '1'){
         tn->label = malloc(sizeof(char)*level);
@@ -37,11 +42,14 @@ void writeLabel(TreeNode* tn, char* label, long *pos, int level){
     writeLabel(tn -> right, label, *pos, level+1);
 }
 
-TreeNode* buildTreeNode(char value, int count, char leaf){
+
+
+TreeNode* buildTreeNode(char value, long count, char leaf){
     TreeNode* root = malloc(sizeof(TreeNode));
     if(root != NULL){
         root -> value = value;
         root -> leaf = leaf;
+        root -> count = 0;
         root -> label = NULL;
         root -> left = NULL;
         root -> right = NULL;

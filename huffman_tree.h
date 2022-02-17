@@ -7,7 +7,8 @@
 
 typedef struct TreeNode {
     char value;
-    char leaf;
+    long count;
+    int leaf;
     char* label;
     struct TreeNode* left;
     struct TreeNode* right;
@@ -15,8 +16,10 @@ typedef struct TreeNode {
 
 void buildCodingTree(TreeNode*, int*, long*);
 
+void buildHuffTree(TreeNode*, Header*);
+
 void writeLabel(TreeNode*, char*, long*, int);
 
-TreeNode* buildTreeNode(char, int, char);
+TreeNode* buildTreeNode(char, long, char);
 
 void destroyTree(TreeNode*);

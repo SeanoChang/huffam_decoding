@@ -3,14 +3,7 @@
 
 #include "huffman_tree.h"
 
-int* readBitPattern(char* inputFile, long* totalByte, long* treeByte, long* stringByte){
-    FILE* fp = fopen(inputFile, "rb");
-    if(fp == NULL){
-        fclose(fp);
-        fprintf(stderr, "Cannot open input file for reading!");
-        return NULL;
-    }
-
+int* readBitPattern(FILE* fp, long* totalByte, long* treeByte, long* stringByte){
     if(fread(totalByte, sizeof(long), 1, fp) == 0){
         fprintf(stderr, "Cannot read the total byte.");
         fclose(fp);
@@ -39,11 +32,6 @@ int* readBitPattern(char* inputFile, long* totalByte, long* treeByte, long* stri
         readCount++;
     }
 
-    for(int i = 0; i < *treeByte*8; i++){
-        fprintf(stdout, "%d ", bitPatterns[i]);
-    }
-
-    fclose(fp);
     return bitPatterns;
 }
 
@@ -62,4 +50,57 @@ char readBitToChar(int* pattern){
     char rtv = strtol(bp, 0, 2); // return value is the char readed from the bit pattern
 
     return rtv;
+}
+
+long decoded(FILE* fp, TreeNode* tn, char* ds, long* totalByte, long* treeByte, long* stringByte){
+    if(fp == NULL){
+        fprintf(stderr, "File pointer does not have a reference.");
+        return 0;
+    }
+
+    long toGet = *totalByte - *treeByte - 3*sizeof(long);
+
+    int* ptn = malloc(sizeof(int) * toGet*8); // the pattern to be decoded
+
+    char oneByte;
+    long readCount = 0;
+    while(fread(&oneByte, sizeof(char), 1, fp) != 0 && readCount <= toGet){
+        for(int i = 0; i < 8;i++){
+            ptn[i + readCount*8] = oneByte & 1;
+            oneByte = oneByte >> 1;
+        }    
+        readCount++;
+    }
+
+    readCount = 0;
+    int pos = 0;
+    int i = 0;
+    while(readCount < *stringByte){
+        ds[i] = getChar(tn, ptn, &pos); // ds stands for decoded string.
+        if(ds[i] == '\0'){
+            return 0;
+        }
+        readCount++;
+    }
+
+    return readCount;
+}
+
+char getChar(TreeNode* root, int* ptn, long* pos){
+    if(root -> leaf == 1){
+        return root->value;
+    }
+
+    char c = '\0';
+    *pos+=1;
+    if(ptn[*pos] == 0){
+        c = getChar(root->left, ptn, *pos);
+    } else if(ptn[*pos] == 1){
+        c = getChar(root->right, ptn, *pos);
+    } else{
+        fprintf(stderr, "Cannot determine whether the tree node is a leaf or not.");
+        return c;
+    }
+
+    return c;
 }

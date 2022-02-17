@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int* readBitPattern(char*, long* , long*, long*);
+int* readBitPattern(FILE*, TreeNode*, char*, long* , long*, long*);
 /*
 Read the input file and interpret the 3 long values and translate each byte for the tree to an int array 
 */
