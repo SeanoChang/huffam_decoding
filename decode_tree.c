@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "char_list.h"
 #include "huffman_tree.h"
-#include "decode_tree.h"
 
 int* readBitPattern(char* inputFile, long* totalByte, long* treeByte, long* stringByte){
     FILE* fp = fopen(inputFile, "rb");

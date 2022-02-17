@@ -2,8 +2,7 @@
 #include <stdlib.h>
 
 #include "huffman_tree.h"
-#include "decode_tree.h"
-#include "char_list.h"
+#include "write_output.h"
 
 
 int main(int argc, char** argv){
@@ -25,7 +24,9 @@ int main(int argc, char** argv){
         return EXIT_FAILURE;
     }
 
-    writeLabel(rTree);
+    pos = 0;
+    char* label = malloc(sizeof(char) * 8);
+    writeLabel(rTree, label, &pos, 1);
     char* dString = decoded(argv[1], rTree); // decoded string 
     if(writeOutput2(argv[3], dString) == false){
         fprintf(stderr, "Unable to write the ori file");

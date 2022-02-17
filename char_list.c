@@ -21,3 +21,24 @@ long* countChar(char* dString){
     return count;
 }
 
+
+
+Node* buildNode(char value, long count){
+    Node* nd = malloc(sizeof(Node));
+    nd -> value = value;
+    nd -> count = count;
+    nd -> next = NULL;
+
+    return nd;
+}
+
+
+void freeNode(Node* head){
+    while(head != NULL){
+        Node* temp = head;
+        head = head -> next;
+        free(temp);
+    }
+
+    free(head);
+}

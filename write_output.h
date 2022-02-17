@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+
+#include "huffman_tree.h"
 
 /* 
 argv[2] the first output is topology information of the tree (pre-order)
@@ -10,3 +13,13 @@ argv[6] the fifth output contains a pair of numbers together specify the number 
 in the input file to encode the original file and a second pair of numbers together specify the number of bits 
 required by the Huffman coding tree to encode the original file. 
 */
+
+bool writeOutput1(char*, TreeNode*);
+
+bool writeOutput2(char*, char*);
+
+bool writeOutput3(char*, long*);
+
+bool writeOutput4(char*, TreeNode*);
+
+bool writeOutput5(char*, TreeNode*);
