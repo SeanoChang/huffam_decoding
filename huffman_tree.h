@@ -16,7 +16,7 @@ typedef struct TreeNode {
 
 void buildCodingTree(TreeNode*, int*, long*);
 
-void buildHuffTree(TreeNode*, Header*);
+TreeNode* buildHuffTree(Header*);
 
 void writeLabel(TreeNode*, char*, long*, int);
 

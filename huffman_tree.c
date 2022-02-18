@@ -24,8 +24,25 @@ void buildCodingTree(TreeNode* root, int* bp, long* pos){
     buildCodingTree(root->right, bp, pos);
 }
 
-void buildHuffTree(TreeNode* root, Header* charList){
-    
+TreeNode* buildHuffTree(Header* charList){
+    Node* cur = charList -> head;
+    Node* nex = cur -> next;
+
+    while(nex != NULL){
+        TreeNode* tn = buildTreeNode('\0', cur->tnptr->count + nex->tnptr->count, 0);
+        tn -> left = cur -> tnptr;
+        tn -> right = nex -> tnptr;
+        cur = removeNode(cur);
+        cur = cur -> next;
+        nex = removeNode(nex);
+        nex = nex -> next;
+        if(!addNode(charList, tn)){
+            fprintf(stderr, "Unable to build construct a huffman tree");
+            return NULL;
+        }
+    }
+
+    return charList->head;
 }
 
 
@@ -42,6 +59,41 @@ void writeLabel(TreeNode* tn, char* label, long *pos, int level){
     writeLabel(tn -> right, label, *pos, level+1);
 }
 
+void evaluateTree(TreeNode* tn, char* ds, long* byte, int* bit){ // decoded string
+    char** ch = malloc(sizeof(char*)*256);
+    if(ch == NULL){
+        fprintf(stderr, "Unable to malloc string array for evaluation.");
+        return;
+    }
+    for(int i = 0; i < 256; i++){
+        ch[i] = malloc(sizeof(char)*8);
+        if(ch[i] == NULL){
+            fprintf(stderr, "Unable to malloc char array for evaluation.");
+            return;
+        }
+        ch[i][0] = '\0';
+    }
+
+    long len = strlen(ds);
+
+    for(int i = 0; i < len; i++){
+        if(ch[(int)(ds[i])][0] != '\0'){
+            byte += strlen(ch[(int)(ds[i])]);
+        } else{
+            char* label = getLabel(ds[i], tn);
+            strncpy(ch[(int)(ds[i])], label, strlen(label));
+        }
+    }
+
+    *bit = *byte % 8;
+    *byte = *byte / 8;
+
+    for(int i = 0; i < 256; i++){
+        free(ch[i]);
+    }
+
+    free(ch);
+}
 
 
 TreeNode* buildTreeNode(char value, long count, char leaf){

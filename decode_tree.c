@@ -52,13 +52,13 @@ char readBitToChar(int* pattern){
     return rtv;
 }
 
-long decoded(FILE* fp, TreeNode* tn, char* ds, long* totalByte, long* treeByte, long* stringByte){
+long decoded(FILE* fp, TreeNode* tn, char* ds, long totalByte, long treeByte, long stringByte, long* byte, long* bit){
     if(fp == NULL){
         fprintf(stderr, "File pointer does not have a reference.");
         return 0;
     }
 
-    long toGet = *totalByte - *treeByte - 3*sizeof(long);
+    long toGet = totalByte - treeByte - 3*sizeof(long);
 
     int* ptn = malloc(sizeof(int) * toGet*8); // the pattern to be decoded
 
@@ -75,13 +75,22 @@ long decoded(FILE* fp, TreeNode* tn, char* ds, long* totalByte, long* treeByte, 
     readCount = 0;
     int pos = 0;
     int i = 0;
-    while(readCount < *stringByte){
+    while(readCount < stringByte){
+        if(strlen(ds) < readCount){
+            char* temp = realloc(ds, sizeof(char)*strlen(ds)*2);
+            if(temp != NULL){
+                ds = temp;
+            }
+        }
         ds[i] = getChar(tn, ptn, &pos); // ds stands for decoded string.
         if(ds[i] == '\0'){
             return 0;
         }
         readCount++;
     }
+
+    *byte = pos / 8;
+    *bit = pos % 8;
 
     return readCount;
 }

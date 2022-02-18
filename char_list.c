@@ -51,31 +51,37 @@ bool addNode(Header* hdr, TreeNode * tn){
 
 	Node* cur = hdr -> head; //current position
 	Node* nex = hdr -> head -> next; //next to current position
-	while(nex != NULL){
-		if(tn->count < cur->tnptr->count){
-            TreeNode * temp = cur->tnptr;
-			Node * node = buildNode(temp);
-            cur -> tnptr = tn;
-			cur -> next = node;
-			node -> next = nex;
-			return true;
-		}
-		cur = cur -> next;
-		nex = nex -> next;
-	}
+	if(nex == NULL){
+        Node* node = buildNode(tn);
+        if(tn -> count < cur -> tnptr -> count){
+            hdr -> head = node;
+            node -> next = cur;
+        } else if(tn -> count == cur -> tnptr -> count && (int)(tn->value) < (int)(cur->tnptr->value)){
+            hdr -> head = node;
+            node -> next = cur;
+        } else {
+            cur -> next = node;
+            hdr -> tail = node;
+        }
+        return true;
+    }
 
-	if(tn->count < cur->tnptr->count){
-        TreeNode * temp = cur->tnptr;
-	    Node * node = buildNode(temp);
-        cur->tnptr = tn;
-        cur->next = node;
-		return true;
-	}
-
-    hdr->tail = cur;
+    while(nex != NULL && tn->count <= nex->tnptr->count){
+        if(tn -> count == cur -> tnptr -> count && (int)(tn->value) > (int)(cur->tnptr->value)){
+            Node* node = buildNode(tn);
+            cur -> next = node;
+            node -> next = nex;
+            if(nex == NULL) hdr -> tail = node;
+            return true;
+        }
+        cur = cur -> next;
+        nex = nex -> next;
+    }
    
 	Node * node = buildNode(tn);
 	cur->next = node;
+    node->next = nex;
+    if(nex == NULL) hdr -> tail = node;
 	return true;
 }
 
@@ -84,6 +90,14 @@ Node* buildNode(TreeNode * tn){
    nd -> tnptr = tn;
    nd -> next = NULL;
    return nd;
+}
+
+Node* removeNode(Node* nd){
+    Node* temp = nd;
+    nd = nd -> next;
+    free(temp);
+
+    return nd;
 }
 
 void freeNode(Node* head){
