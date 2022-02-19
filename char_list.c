@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "huffman_tree.h"
+#include "Struct.h"
+#include "char_list.h"
 
 long* countChar(char* dString){
     long* count = malloc(sizeof(long) * 256);

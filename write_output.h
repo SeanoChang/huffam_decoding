@@ -1,8 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-
-#include "huffman_tree.h"
+#ifndef WRITE_OUTPUT_H
+#define WRITE_OUTPUT_H
 
 /* 
 argv[2] the first output is topology information of the tree (pre-order)
@@ -23,3 +20,4 @@ bool writeOutput3(char*, long*);
 bool writeOutput4(char*, TreeNode*);
 
 bool writeOutput5(char*, long, int, long ,int);
+#endif

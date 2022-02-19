@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
+#include "Struct.h"
 #include "write_output.h"
 
 void writePreOrder(FILE*, TreeNode*);
 
 bool writeOutput1(char* outfile1, TreeNode* tn){ // tn stands for treenode
-    FILE * fp = fopen(outfile1, "wb");
+    FILE * fp = fopen(outfile1, "w");
     if(fp == NULL){
         fprintf(stderr, "Cannot open output file 1.");
         return false;
@@ -52,7 +52,7 @@ bool writeOutput3(char* outfile3, long* count){
 }
 
 bool writeOutput4(char* outfile4, TreeNode* tn){
-    FILE * fp = fopen(outfile4, "wb");
+    FILE * fp = fopen(outfile4, "w");
     if(fp == NULL){
         fprintf(stderr, "Cannot open output file 4.");
         return false;
@@ -83,9 +83,9 @@ void writePreOrder(FILE* fp, TreeNode* tn){
         return;
     }
 
-    fwrite(&tn->leaf, sizeof(char), 1, fp);
+    fprintf("%c", tn->leaf);
     if(tn->leaf == '1'){
-        fwrite(&tn->value, sizeof(char), 1, fp);
+        fprintf("%c", tn->value);
     }
     writePreOrder(fp, tn->left);
     writePreOrder(fp, tn->right);

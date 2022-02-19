@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "huffman_tree.h"
+#include <string.h>
+#include "Struct.h"
+#include "decode_tree.h"
 
 int* readBitPattern(FILE* fp, long* totalByte, long* treeByte, long* stringByte){
     if(fread(totalByte, sizeof(long), 1, fp) == 0){
@@ -36,7 +37,7 @@ int* readBitPattern(FILE* fp, long* totalByte, long* treeByte, long* stringByte)
 }
 
 char readBitToChar(int* pattern){
-    char* bp[8] = '\0' * 8;
+    char* bp = malloc(sizeof(char)*8);
 
     for(int i = 7; i >= 0; i--){
         if(pattern[i] == 1){
@@ -48,11 +49,12 @@ char readBitToChar(int* pattern){
     }
 
     char rtv = strtol(bp, 0, 2); // return value is the char readed from the bit pattern
+    free(bp);
 
     return rtv;
 }
 
-long decoded(FILE* fp, TreeNode* tn, char* ds, long totalByte, long treeByte, long stringByte, long* byte, long* bit){
+long decoded(FILE* fp, TreeNode* tn, char* ds, long totalByte, long treeByte, long stringByte, long* byte, int* bit){
     if(fp == NULL){
         fprintf(stderr, "File pointer does not have a reference.");
         return 0;
@@ -73,7 +75,7 @@ long decoded(FILE* fp, TreeNode* tn, char* ds, long totalByte, long treeByte, lo
     }
 
     readCount = 0;
-    int pos = 0;
+    long pos = 0;
     int i = 0;
     while(readCount < stringByte){
         if(strlen(ds) < readCount){
@@ -103,9 +105,9 @@ char getChar(TreeNode* root, int* ptn, long* pos){
     char c = '\0';
     *pos+=1;
     if(ptn[*pos] == 0){
-        c = getChar(root->left, ptn, *pos);
+        c = getChar(root->left, ptn, pos);
     } else if(ptn[*pos] == 1){
-        c = getChar(root->right, ptn, *pos);
+        c = getChar(root->right, ptn, pos);
     } else{
         fprintf(stderr, "Cannot determine whether the tree node is a leaf or not.");
         return c;

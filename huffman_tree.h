@@ -1,18 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-
-#include "decode_tree.h"
-#include "char_list.h"
-
-typedef struct TreeNode {
-    char value;
-    long count;
-    int leaf;
-    char* label;
-    struct TreeNode* left;
-    struct TreeNode* right;
-} TreeNode;
+#ifndef HUFFMAN_TREE_H
+#define HUFFMAN_TREE_H
 
 void buildCodingTree(TreeNode*, int*, long*);
 
@@ -22,4 +9,10 @@ void writeLabel(TreeNode*, char*, long*, int);
 
 TreeNode* buildTreeNode(char, long, char);
 
+void evaluateTree(TreeNode*, char*, long*, int*);
+
+char* getLabel(char*, char, TreeNode*);
+
 void destroyTree(TreeNode*);
+
+#endif

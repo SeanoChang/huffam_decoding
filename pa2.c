@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <stdbool.h>
+#include "Struct.h"
 #include "huffman_tree.h"
 #include "write_output.h"
-
+#include "char_list.h"
+#include "decode_tree.h"
 
 int main(int argc, char** argv){
     if(argc != 7){
@@ -16,7 +18,7 @@ int main(int argc, char** argv){
     if(fp == NULL){
         fclose(fp);
         fprintf(stderr, "Cannot open input file for reading!");
-        return NULL;
+        return EXIT_FAILURE;
     }
 
     long totalByte; // the total bytes in the file
@@ -38,7 +40,7 @@ int main(int argc, char** argv){
     long rByte = 0; // the bytes needed for writing the string with the original coding tree
     int rBit = 0; // the remaining bits needed for writing the string with the original coding tree
     writeLabel(rTree, label, &pos, 1);
-    long decodeByte = decoded(fp, rTree, dString, totalByte, treeByte, stringByte, &rByte, &rBit); // decoded string //file closes here
+    long decodeByte = decoded(fp, rTree, dString, totalByte, treeByte, stringByte, &rByte, &rBit); // decoded string, file closes here
     if(decodeByte != stringByte){
         fprintf(stderr, "Unable to decode the original string.");
         return EXIT_FAILURE;
@@ -52,7 +54,7 @@ int main(int argc, char** argv){
 
     long* characters = countChar(dString); // count each acsii characters 
     if(writeOutput3(argv[4], characters) == false){
-        fpritnf(stderr, "Unable to write the count file.");
+        fprintf(stderr, "Unable to write the count file.");
         return EXIT_FAILURE;
     }
 
@@ -68,12 +70,13 @@ int main(int argc, char** argv){
 
     long hByte = 0;
     int hBit = 0;
-    evaluateTree(hTree, &hByte, &hBit);
+    evaluateTree(hTree, dString, &hByte, &hBit);
     if(writeOutput5(argv[6], rByte, rBit, hByte, hBit) == false){
         fprintf(stderr, "Unable to write the eval file.");
         return EXIT_FAILURE;
     }
     destroyTree(hTree);
+    free(dString);
 
     return EXIT_SUCCESS;
 }

@@ -2,8 +2,11 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-
+#include "Struct.h"
+#include "decode_tree.h"
+#include "char_list.h"
 #include "huffman_tree.h"
+
 
 void buildCodingTree(TreeNode* root, int* bp, long* pos){
     if(bp[*pos] == 1){
@@ -42,7 +45,7 @@ TreeNode* buildHuffTree(Header* charList){
         }
     }
 
-    return charList->head;
+    return charList->head->tnptr;
 }
 
 
@@ -54,9 +57,9 @@ void writeLabel(TreeNode* tn, char* label, long *pos, int level){
     }
 
     label[*pos] = '0';
-    writeLabel(tn -> left, label, *pos, level+1);
+    writeLabel(tn -> left, label, pos, level+1);
     label[*pos] = '1';
-    writeLabel(tn -> right, label, *pos, level+1);
+    writeLabel(tn -> right, label, pos, level+1);
 }
 
 void evaluateTree(TreeNode* tn, char* ds, long* byte, int* bit){ // decoded string
@@ -80,7 +83,7 @@ void evaluateTree(TreeNode* tn, char* ds, long* byte, int* bit){ // decoded stri
         if(ch[(int)(ds[i])][0] != '\0'){
             byte += strlen(ch[(int)(ds[i])]);
         } else{
-            char* label = getLabel(ds[i], tn);
+            char* label = getLabel(&ds[i], (char)i, tn);
             strncpy(ch[(int)(ds[i])], label, strlen(label));
         }
     }
@@ -107,6 +110,17 @@ TreeNode* buildTreeNode(char value, long count, char leaf){
         root -> right = NULL;
     }
     return root;
+}
+
+char* getLabel(char* ds, char key, TreeNode* tn){
+    if(tn -> value == key){
+        return tn->label;
+    }
+
+    char* label = getLabel(ds, key, tn->left);
+    label = getLabel(ds,key,tn->right);
+
+    return label;
 }
 
 void destroyTree(TreeNode* tn){

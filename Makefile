@@ -12,7 +12,7 @@ $(EXEC): $(OBJS) $(HOBJS)
 
 test: $(EXEC)
 	mkdir outputs
-	./pa2 pa2_examples/encoded/gophers_huff.hbt outputs/gophers_huff.tree outputs/gophers.ori outputs/gophers.count outputs/gophers.htree outputs/gophers.eval
+	./pa2 pa2_examples/encoded/gophers_nonhuff.hbt outputs/gophers_huff.tree outputs/gophers.ori outputs/gophers.count outputs/gophers.htree outputs/gophers.eval
 
 memory: $(EXEC)
 	mkdir moutputs
