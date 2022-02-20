@@ -32,7 +32,7 @@ bool writeOutput2(char* outfile2, char* ds){ // ds stands for decoded string
             return false;
         }
     }
-
+	fclose(fp);
     return true;
 }
 
@@ -48,7 +48,7 @@ bool writeOutput3(char* outfile3, long* count){
         fclose(fp);
         return false;
     }
-
+	fclose(fp);
     return true;
 }
 
@@ -75,7 +75,7 @@ bool writeOutput5(char*outfile5, long rByte, int rBit, long hByte, int hBit){
     fwrite(&rBit, sizeof(int), 1, fp);
     fwrite(&hByte, sizeof(long), 1, fp);
     fwrite(&hBit, sizeof(int), 1, fp);
-    
+ 	fclose(fp);   
     return true;
 }
 
@@ -91,3 +91,4 @@ void writePreOrder(FILE* fp, TreeNode* tn){
     writePreOrder(fp, tn->left);
     writePreOrder(fp, tn->right);
 }
+

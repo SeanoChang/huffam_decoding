@@ -29,6 +29,7 @@ int main(int argc, char** argv){
     TreeNode* rTree = NULL; // reconstructed tree from the input file
     long pos = 0; // the position for writing bit pattern array
     buildCodingTree(rTree, bitPatterns, &pos);
+
     if(writeOutput1(argv[2], rTree) == false){
         fprintf(stderr, "Unable to write the tree file");
         return EXIT_FAILURE;
@@ -41,7 +42,8 @@ int main(int argc, char** argv){
     int rBit = 0; // the remaining bits needed for writing the string with the original coding tree
     writeLabel(rTree, label, &pos, 1);
     long decodeByte = decoded(fp, rTree, dString, totalByte, treeByte, stringByte, &rByte, &rBit); // decoded string, file closes here
-    if(decodeByte != stringByte){
+fprintf(stdout,"%ld %ld\n", decodeByte, stringByte);     
+if(decodeByte != stringByte){
         fprintf(stderr, "Unable to decode the original string.");
         return EXIT_FAILURE;
     }
@@ -75,6 +77,7 @@ int main(int argc, char** argv){
         fprintf(stderr, "Unable to write the eval file.");
         return EXIT_FAILURE;
     }
+	fclose(fp);
     destroyTree(hTree);
     free(dString);
 

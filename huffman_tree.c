@@ -8,21 +8,26 @@
 #include "huffman_tree.h"
 
 
-void buildCodingTree(TreeNode* root, int* bp, long* pos){
-    if(bp[*pos] == 1){
-        int pattern[8];
+void buildCodingTree(TreeNode* root, int* bp, long* pos){ 
+if(bp[*pos] == '1'){
+        char pattern[8];
         for(int i = 0; i < 8; i++){
-            pattern[i] = bp[*pos+1+i];
+		if(bp[*pos+1+i] == 1){
+			pattern[i] = '1';
+		}else if(bp[*pos+1+i] == 0){
+			pattern[i] = '0';
+		}
         }
         char c = readBitToChar(pattern);
         *pos += 9;
-        root = buildTreeNode(c, 0, '1');
+        root = buildTreeNode(c, 0, 1);
         return;
     }
 
     if(root == NULL){
-        root = buildTreeNode('\0', 0, '0');
+        root = buildTreeNode('\0', 0, 0);
     }
+	*pos += 1;
     buildCodingTree(root->left, bp, pos);
     buildCodingTree(root->right, bp, pos);
 }
@@ -50,7 +55,10 @@ TreeNode* buildHuffTree(Header* charList){
 
 
 void writeLabel(TreeNode* tn, char* label, long *pos, int level){ 
-    if(tn->leaf == '1'){
+    if(tn == NULL){
+	return;
+}
+	if(tn->leaf == 1){
         tn->label = malloc(sizeof(char)*level);
         strncpy(tn->label, label, level);
         return;
@@ -99,16 +107,19 @@ void evaluateTree(TreeNode* tn, char* ds, long* byte, int* bit){ // decoded stri
 }
 
 
-TreeNode* buildTreeNode(char value, long count, char leaf){
+TreeNode* buildTreeNode(char value, long count, int leaf){
     TreeNode* root = malloc(sizeof(TreeNode));
+
     if(root != NULL){
         root -> value = value;
         root -> leaf = leaf;
+fprintf(stdout, "%d\n", root -> leaf);
         root -> count = 0;
         root -> label = NULL;
         root -> left = NULL;
         root -> right = NULL;
     }
+
     return root;
 }
 

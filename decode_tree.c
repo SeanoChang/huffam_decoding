@@ -25,33 +25,29 @@ int* readBitPattern(FILE* fp, long* totalByte, long* treeByte, long* stringByte)
 
     char oneByte;
     long readCount = 0;
-    while(fread(&oneByte, sizeof(char), 1, fp) != 0 && readCount <= *treeByte){
+    while(fread(&oneByte, sizeof(char), 1, fp) != 0 && readCount < *treeByte){
         for(int i = 0; i < 8;i++){
             bitPatterns[i + readCount*8] = oneByte & 1;
             oneByte = oneByte >> 1;
         }    
         readCount++;
     }
-
+	
     return bitPatterns;
 }
 
-char readBitToChar(int* pattern){
-    char* bp = malloc(sizeof(char)*8);
+char readBitToChar(char* pattern){
+    char bp[8];
 
     for(int i = 7; i >= 0; i--){
-        if(pattern[i] == 1){
-            bp[7-i] = '1';
-        }
-        else{
-            bp[7-i] = '0';
-        }
+    	bp[7-i] = pattern[i];
     }
 
-    char rtv = strtol(bp, 0, 2); // return value is the char readed from the bit pattern
-    free(bp);
+    int rtv = strtol(bp, 0, 2); // return value is the char readed from the bit pattern
+	fprintf(stdout, "\n%c %d\n", (char)rtv, rtv);
+	
 
-    return rtv;
+    return (char)rtv;
 }
 
 long decoded(FILE* fp, TreeNode* tn, char* ds, long totalByte, long treeByte, long stringByte, long* byte, int* bit){
@@ -77,6 +73,7 @@ long decoded(FILE* fp, TreeNode* tn, char* ds, long totalByte, long treeByte, lo
     readCount = 0;
     long pos = 0;
     int i = 0;
+ds[0] = '\0';
     while(readCount < stringByte){
         if(strlen(ds) < readCount){
             char* temp = realloc(ds, sizeof(char)*strlen(ds)*2);
@@ -93,7 +90,8 @@ long decoded(FILE* fp, TreeNode* tn, char* ds, long totalByte, long treeByte, lo
 
     *byte = pos / 8;
     *bit = pos % 8;
-
+	
+	fclose(fp);
     return readCount;
 }
 
@@ -103,10 +101,11 @@ char getChar(TreeNode* root, int* ptn, long* pos){
     }
 
     char c = '\0';
-    *pos+=1;
     if(ptn[*pos] == 0){
+	*pos+=1;
         c = getChar(root->left, ptn, pos);
     } else if(ptn[*pos] == 1){
+	*pos+=1;
         c = getChar(root->right, ptn, pos);
     } else{
         fprintf(stderr, "Cannot determine whether the tree node is a leaf or not.");

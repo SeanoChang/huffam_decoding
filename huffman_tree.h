@@ -7,7 +7,7 @@ TreeNode* buildHuffTree(Header*);
 
 void writeLabel(TreeNode*, char*, long*, int);
 
-TreeNode* buildTreeNode(char, long, char);
+TreeNode* buildTreeNode(char, long, int);
 
 void evaluateTree(TreeNode*, char*, long*, int*);
 

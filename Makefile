@@ -4,7 +4,7 @@ GCC = gcc $(CFLAGS)
 EXEC = pa2
 OBJS =  pa2.o decode_tree.o huffman_tree.o char_list.o write_output.o
 HOBJS = decode_tree.h huffman_tree.h char_list.h write_output.h
-VALGRIND = valgrind --tool=memcheck --leak-check=yes --verbose
+VALGRIND = valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --verbose
 
 
 $(EXEC): $(OBJS) $(HOBJS)
@@ -16,7 +16,7 @@ test: $(EXEC)
 
 memory: $(EXEC)
 	mkdir moutputs
-	$(VALGRIND) ./$(EXEC) 
+	$(VALGRIND) ./$(EXEC) pa2_examples/encoded/gophers_nonhuff.hbt moutputs/gohers_huff.tree moutputs/gophers.ori moutputs/gophers.count moutputs/gophers.htree moutputs/gophers.eval
 
 %.o : %.c
 	$(GCC) -c $< 
