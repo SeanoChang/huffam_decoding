@@ -25,10 +25,14 @@ int main(int argc, char** argv){
     long treeByte; // the bytes to be read for the coding tree
     long stringByte; // the bytes of the original string
     int* bitPatterns = readBitPattern(fp, &totalByte, &treeByte, &stringByte); // get the bit patterns for building the tree
-
+fprintf(stdout,"\n");	
+for(int i = 0; i < 8*treeByte; i++){
+	fprintf(stdout, "%d ", bitPatterns[i]);
+}
+fprintf(stdout,"\n");
     TreeNode* rTree = NULL; // reconstructed tree from the input file
     long pos = 0; // the position for writing bit pattern array
-    buildCodingTree(rTree, bitPatterns, &pos);
+    buildCodingTree(rTree, bitPatterns, &pos, treeByte);
 
     if(writeOutput1(argv[2], rTree) == false){
         fprintf(stderr, "Unable to write the tree file");

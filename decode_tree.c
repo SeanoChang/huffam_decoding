@@ -37,14 +37,16 @@ int* readBitPattern(FILE* fp, long* totalByte, long* treeByte, long* stringByte)
 }
 
 char readBitToChar(char* pattern){
-    char bp[8];
+    char bp[9] = {'\0'};
 
     for(int i = 7; i >= 0; i--){
     	bp[7-i] = pattern[i];
-    }
+}
+fprintf(stdout, "%s\n", pattern);
+fprintf(stdout, "%s\n", bp);
 
     int rtv = strtol(bp, 0, 2); // return value is the char readed from the bit pattern
-	fprintf(stdout, "\n%c %d\n", (char)rtv, rtv);
+	fprintf(stdout, "%c %d\n", (char)rtv, rtv);
 	
 
     return (char)rtv;
@@ -96,7 +98,8 @@ long decoded(FILE* fp, TreeNode* tn, char* ds, long totalByte, long treeByte, lo
 }
 
 char getChar(TreeNode* root, int* ptn, long* pos){
-    if(root -> leaf == 1){
+fprintf(stdout, "%d\n", root->leaf);    
+if(root -> leaf == 1){
         return root->value;
     }
 
