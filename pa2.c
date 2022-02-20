@@ -55,8 +55,8 @@ int main(int argc, char** argv){
     int rBit = 0; // the remaining bits needed for writing the string with the original coding tree
     writeLabel(rTree, label, &pos, 1);
     printPre(rTree);
-    long decodeByte = decoded(fp, rTree, dString, totalByte, treeByte, stringByte, &rByte, &rBit); // decoded string, file closes here
-fprintf(stdout,"\n%ld %ld\n", decodeByte, stringByte);     
+    long decodeByte = decoded(fp, rTree, dString, totalByte, treeByte, stringByte, &rByte, &rBit); // get decoded string, file closes here
+
     if(decodeByte != stringByte){
         fprintf(stderr, "Unable to decode the original string.");
         return EXIT_FAILURE;

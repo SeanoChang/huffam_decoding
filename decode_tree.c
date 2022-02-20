@@ -44,7 +44,7 @@ char readBitToChar(char* pattern){
     }
 
     int rtv = strtol(bp, 0, 2); // return value is the char readed from the bit pattern
-    
+
     return (char)rtv;
 }
 
@@ -60,6 +60,7 @@ long decoded(FILE* fp, TreeNode* tn, char* ds, long totalByte, long treeByte, lo
 
     char oneByte;
     long readCount = 0;
+    fseek(fp, -1, SEEK_CUR);
     while(fread(&oneByte, sizeof(char), 1, fp) != 0 && readCount <= toGet){
         for(int i = 0; i < 8;i++){
             ptn[i + readCount*8] = oneByte & 1;
@@ -67,19 +68,26 @@ long decoded(FILE* fp, TreeNode* tn, char* ds, long totalByte, long treeByte, lo
         }    
         readCount++;
     }
+    printf("\n");
+    for(int i = 0; i < toGet*8; i++){
+        printf("%d", ptn[i]);
+    }
+    printf("\n");
 
     readCount = 0;
     long pos = 0;
     int i = 0;
     ds[0] = '\0';
     while(readCount < stringByte){
-        if(strlen(ds) < readCount){
-            char* temp = realloc(ds, sizeof(char)*strlen(ds)*2);
+        int len = strlen(ds);
+        if(len < readCount+1){
+            char* temp = realloc(ds, sizeof(char)*len*2);
             if(temp != NULL){
                 ds = temp;
             }
         }
         ds[i] = getChar(tn, ptn, &pos); // ds stands for decoded string.
+        printf("this is %c\n", ds[i]);
         if(ds[i] == '\0'){
             return 0;
         }
@@ -95,15 +103,16 @@ long decoded(FILE* fp, TreeNode* tn, char* ds, long totalByte, long treeByte, lo
 
 char getChar(TreeNode* root, int* ptn, long* pos){
     if(root -> leaf == 1){
+        printf("im here %c and ", root -> value);
         return root->value;
     }
 
     char c = '\0';
     if(ptn[*pos] == 0){
-	*pos+=1;
+	    *pos+=1;
         c = getChar(root->left, ptn, pos);
     } else if(ptn[*pos] == 1){
-	*pos+=1;
+	    *pos+=1;
         c = getChar(root->right, ptn, pos);
     } else{
         fprintf(stderr, "Cannot determine whether the tree node is a leaf or not.");
