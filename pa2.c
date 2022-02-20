@@ -14,7 +14,8 @@ void printPre(TreeNode* tn){
 
     printf("%d", tn->leaf);
     if(tn -> leaf == 1){
-        printf("%c", tn->value);
+        printf("%c\n", tn->value);
+        printf("this is label: %s\n", tn->label);
     }
     printPre(tn->left);
     printPre(tn->right);

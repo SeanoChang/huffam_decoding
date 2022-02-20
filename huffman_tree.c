@@ -54,18 +54,22 @@ TreeNode* buildHuffTree(Header* charList){
 
 void writeLabel(TreeNode* tn, char* label, long *pos, int level){ 
     if(tn == NULL){
-	return;
-}
+	    return;
+    }
 	if(tn->leaf == 1){
-        tn->label = malloc(sizeof(char)*level);
+        tn->label = malloc(sizeof(char)*(level-1));
         strncpy(tn->label, label, level);
         return;
     }
 
     label[*pos] = '0';
+    *pos += 1;
     writeLabel(tn -> left, label, pos, level+1);
+    *pos -= 1;
     label[*pos] = '1';
+    *pos += 1;
     writeLabel(tn -> right, label, pos, level+1);
+    *pos -= 1;
 }
 
 void evaluateTree(TreeNode* tn, char* ds, long* byte, int* bit){ // decoded string
