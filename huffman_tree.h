@@ -1,7 +1,7 @@
 #ifndef HUFFMAN_TREE_H
 #define HUFFMAN_TREE_H
 
-void buildCodingTree(TreeNode*, int*, long*,long);
+TreeNode* buildCodingTree(int*, long*,long);
 
 TreeNode* buildHuffTree(Header*);
 

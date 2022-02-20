@@ -8,32 +8,26 @@
 #include "huffman_tree.h"
 
 
-void buildCodingTree(TreeNode* root, int* bp, long* pos, long terminate){
-if(*pos == terminate*8){
-return;
-} 
-if(bp[*pos] == 1){
+TreeNode* buildCodingTree(int* bp, long* pos, long terminate){
+    if(bp[*pos] == 1){
         char pattern[9] = {'\0'};
         for(int i = 0; i < 8; i++){
-		if(bp[*pos+i+1] == 1){
-			pattern[i] = '1';
-		}else if(bp[*pos+i+1] == 0){
-			pattern[i] = '0';
-		}
+		    if(bp[*pos+i+1] == 1){
+			    pattern[i] = '1';
+		    }else if(bp[*pos+i+1] == 0){
+			    pattern[i] = '0';
+		    }
         }
-	fprintf(stdout, "original pattern: %s\n", pattern);
         char c = readBitToChar(pattern);
         *pos += 9;
-        root = buildTreeNode(c, 0, 1);
-        return;
+        return buildTreeNode(c, 0, 1);
     }
 
-    if(root == NULL){
-        root = buildTreeNode('\0', 0, 0);
-    }
+    TreeNode* rtv = buildTreeNode('\0', 0, 0);
 	*pos += 1;
-    buildCodingTree(root->left, bp, pos,terminate);
-    buildCodingTree(root->right, bp, pos,terminate);
+    rtv -> left = buildCodingTree(bp, pos, terminate);
+    rtv -> right = buildCodingTree(bp, pos, terminate);
+    return rtv;
 }
 
 TreeNode* buildHuffTree(Header* charList){

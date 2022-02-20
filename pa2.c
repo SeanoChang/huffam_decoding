@@ -7,6 +7,19 @@
 #include "char_list.h"
 #include "decode_tree.h"
 
+void printPre(TreeNode* tn){
+    if(tn == NULL){
+        return;
+    }
+
+    printf("%d", tn->leaf);
+    if(tn -> leaf == 1){
+        printf("%c", tn->value);
+    }
+    printPre(tn->left);
+    printPre(tn->right);
+}
+
 int main(int argc, char** argv){
     if(argc != 7){
         fprintf(stderr, "Incorrect input files number");
@@ -25,14 +38,9 @@ int main(int argc, char** argv){
     long treeByte; // the bytes to be read for the coding tree
     long stringByte; // the bytes of the original string
     int* bitPatterns = readBitPattern(fp, &totalByte, &treeByte, &stringByte); // get the bit patterns for building the tree
-fprintf(stdout,"\n");	
-for(int i = 0; i < 8*treeByte; i++){
-	fprintf(stdout, "%d ", bitPatterns[i]);
-}
-fprintf(stdout,"\n");
-    TreeNode* rTree = NULL; // reconstructed tree from the input file
+
     long pos = 0; // the position for writing bit pattern array
-    buildCodingTree(rTree, bitPatterns, &pos, treeByte);
+    TreeNode* rTree = buildCodingTree(bitPatterns, &pos, treeByte);// reconstructed tree from the input file
 
     if(writeOutput1(argv[2], rTree) == false){
         fprintf(stderr, "Unable to write the tree file");
@@ -45,9 +53,10 @@ fprintf(stdout,"\n");
     long rByte = 0; // the bytes needed for writing the string with the original coding tree
     int rBit = 0; // the remaining bits needed for writing the string with the original coding tree
     writeLabel(rTree, label, &pos, 1);
+    printPre(rTree);
     long decodeByte = decoded(fp, rTree, dString, totalByte, treeByte, stringByte, &rByte, &rBit); // decoded string, file closes here
-fprintf(stdout,"%ld %ld\n", decodeByte, stringByte);     
-if(decodeByte != stringByte){
+fprintf(stdout,"\n%ld %ld\n", decodeByte, stringByte);     
+    if(decodeByte != stringByte){
         fprintf(stderr, "Unable to decode the original string.");
         return EXIT_FAILURE;
     }
