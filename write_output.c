@@ -19,20 +19,20 @@ bool writeOutput1(char* outfile1, TreeNode* tn){ // tn stands for treenode
     return true;
 }
 
-bool writeOutput2(char* outfile2, char* ds){ // ds stands for decoded string
+bool writeOutput2(char* outfile2, char* ds, long strLen){ // ds stands for decoded string
     FILE * fp = fopen(outfile2, "w");
     if(fp == NULL){
         fprintf(stderr, "Cannot open output file 2.");
         return false;
     }
 
-    for(int i = 0; i < strlen(ds); i++){
+    for(int i = 0; i < strLen; i++){
         if(fprintf(fp, "%c", ds[i]) != 1){
             fprintf(stderr, "Cannot write into file.");
             return false;
         }
     }
-    
+
 	fclose(fp);
     return true;
 }
@@ -86,7 +86,7 @@ void writePreOrder(FILE* fp, TreeNode* tn){
     }
 
     fprintf(fp, "%d", tn->leaf);
-    if(tn->leaf == '1'){
+    if(tn->leaf == 1){
         fprintf(fp, "%c", tn->value);
     }
     writePreOrder(fp, tn->left);

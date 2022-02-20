@@ -48,7 +48,7 @@ char readBitToChar(char* pattern){
     return (char)rtv;
 }
 
-char* decoded(FILE* fp, TreeNode* tn, long* readCount, long totalByte, long treeByte, long stringByte, long* byte, int* bit){
+char* decoded(FILE* fp, TreeNode* tn, long* stringLen, long totalByte, long treeByte, long stringByte, long* byte, int* bit){
     if(fp == NULL){
         fprintf(stderr, "File pointer does not have a reference.");
         return 0;
@@ -60,14 +60,14 @@ char* decoded(FILE* fp, TreeNode* tn, long* readCount, long totalByte, long tree
     int* ptn = malloc(sizeof(int) * toGet*8); // the pattern to be decoded
 
     char oneByte;
-    *readCount = 0;
+    long readCount = 0;
     fseek(fp, -1, SEEK_CUR);
-    while(fread(&oneByte, sizeof(char), 1, fp) != 0 && *readCount <= toGet){
+    while(fread(&oneByte, sizeof(char), 1, fp) != 0 && readCount <= toGet){
         for(int i = 0; i < 8;i++){
-            ptn[i + *readCount*8] = oneByte & 1;
+            ptn[i + readCount*8] = oneByte & 1;
             oneByte = oneByte >> 1;
         }    
-        *readCount += 1;
+        readCount++;
     }
     printf("\n");
     for(int i = 0; i < toGet*8; i++){
@@ -75,14 +75,14 @@ char* decoded(FILE* fp, TreeNode* tn, long* readCount, long totalByte, long tree
     }
     printf("\n");
 
-    *readCount = 0;
+    readCount = 0;
     long pos = 0;
     int i = 0;
-    ds[0] = '\0';
-    while(*readCount < stringByte){
-        int len = strlen(ds);
-        if(len < *readCount+1){
+    long len = 1;
+    while(readCount < stringByte){
+        if(len < readCount+1){
             char* temp = realloc(ds, sizeof(char)*len*2);
+            len *= 2;
             if(temp != NULL){
                 ds = temp;
             }
@@ -92,9 +92,10 @@ char* decoded(FILE* fp, TreeNode* tn, long* readCount, long totalByte, long tree
             return 0;
         }
         i++;
-        *readCount += 1;
+        readCount++;
     }
 
+    *stringLen = readCount;
     *byte = pos / 8;
     *bit = pos % 8;
 	printf("I got this string: %s\n", ds);

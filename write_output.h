@@ -13,7 +13,7 @@ required by the Huffman coding tree to encode the original file.
 
 bool writeOutput1(char*, TreeNode*);
 
-bool writeOutput2(char*, char*);
+bool writeOutput2(char*, char*, long);
 
 bool writeOutput3(char*, long*);
 

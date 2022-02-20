@@ -54,13 +54,13 @@ int main(int argc, char** argv){
     int rBit = 0; // the remaining bits needed for writing the string with the original coding tree
     writeLabel(rTree, label, &pos, 1);
     printPre(rTree);
-    long decodeByte = 0;
-    char* dString = decoded(fp, rTree, &decodeByte, totalByte, treeByte, stringByte, &rByte, &rBit); // get decoded string, file closes here
-    if(decodeByte != stringByte){
+    long strLen = 0; // length of the decoded string
+    char* dString = decoded(fp, rTree, &strLen, totalByte, treeByte, stringByte, &rByte, &rBit); // get decoded string, file closes here
+    if(strLen != stringByte){
         fprintf(stderr, "Unable to decode the original string.");
         return EXIT_FAILURE;
     }
-    if(writeOutput2(argv[3], dString) == false){
+    if(writeOutput2(argv[3], dString, strLen) == false){
         fprintf(stderr, "Unable to write the ori file");
         return EXIT_FAILURE;
     }
