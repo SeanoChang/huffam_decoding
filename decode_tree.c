@@ -73,7 +73,7 @@ long decoded(FILE* fp, TreeNode* tn, char* ds, long totalByte, long treeByte, lo
     readCount = 0;
     long pos = 0;
     int i = 0;
-ds[0] = '\0';
+    ds[0] = '\0';
     while(readCount < stringByte){
         if(strlen(ds) < readCount){
             char* temp = realloc(ds, sizeof(char)*strlen(ds)*2);

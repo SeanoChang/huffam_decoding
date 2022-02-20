@@ -113,7 +113,6 @@ TreeNode* buildTreeNode(char value, long count, int leaf){
     if(root != NULL){
         root -> value = value;
         root -> leaf = leaf;
-fprintf(stdout, "%d\n", root -> leaf);
         root -> count = 0;
         root -> label = NULL;
         root -> left = NULL;
