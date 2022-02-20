@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include "Struct.h"
 #include "char_list.h"
+#include "huffman_tree.h"
 
 long* countChar(char* dString){
     long* count = malloc(sizeof(long) * 256);
@@ -44,8 +46,8 @@ Header* makeSortedLL(long * charCount){
 bool addNode(Header* hdr, TreeNode * tn){
 	if(hdr -> head == NULL){
 		Node * node = buildNode(tn);
-		hdr -> head -> tnptr = node;
-        hdr -> tail -> tnptr = node;
+		hdr -> head = node;
+        hdr -> tail = node;
 		return true;
 	}
 

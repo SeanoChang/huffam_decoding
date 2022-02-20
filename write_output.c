@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include "Struct.h"
 #include "write_output.h"
 
@@ -83,9 +84,9 @@ void writePreOrder(FILE* fp, TreeNode* tn){
         return;
     }
 
-    fprintf("%c", tn->leaf);
+    fprintf(fp, "%d", tn->leaf);
     if(tn->leaf == '1'){
-        fprintf("%c", tn->value);
+        fprintf(fp, "%c", tn->value);
     }
     writePreOrder(fp, tn->left);
     writePreOrder(fp, tn->right);

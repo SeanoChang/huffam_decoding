@@ -2,8 +2,8 @@ CFLAGS = -std=c99 -g -Wall -Wshadow -Wvla -pedantic -Werror
 GCCALL = gcc -O3 -std=c99 -Wall -Wshadow -Wvla -pedantic
 GCC = gcc $(CFLAGS)
 EXEC = pa2
-OBJS =  pa2.o decode_tree.o huffman_tree.o char_list.o
-HOBJS = decode_tree.h huffman_tree.h char_list.h
+OBJS =  pa2.o decode_tree.o huffman_tree.o char_list.o write_output.o
+HOBJS = decode_tree.h huffman_tree.h char_list.h write_output.h
 VALGRIND = valgrind --tool=memcheck --leak-check=yes --verbose
 
 
