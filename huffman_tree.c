@@ -38,14 +38,14 @@ TreeNode* buildHuffTree(Header* charList){
         TreeNode* tn = buildTreeNode('\0', cur->tnptr->count + nex->tnptr->count, 0);
         tn -> left = cur -> tnptr;
         tn -> right = nex -> tnptr;
-        cur = removeNode(cur);
-        cur = cur -> next;
-        nex = removeNode(nex);
-        nex = nex -> next;
         if(!addNode(charList, tn)){
             fprintf(stderr, "Unable to build construct a huffman tree");
             return NULL;
         }
+        cur = removeNode(cur);
+        cur = cur -> next;
+        nex = removeNode(nex);
+        nex = nex -> next;
     }
 
     return charList->head->tnptr;
