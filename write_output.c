@@ -32,6 +32,7 @@ bool writeOutput2(char* outfile2, char* ds){ // ds stands for decoded string
             return false;
         }
     }
+    
 	fclose(fp);
     return true;
 }

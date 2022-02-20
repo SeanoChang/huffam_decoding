@@ -50,13 +50,12 @@ int main(int argc, char** argv){
 
     pos = 0;
     char* label = malloc(sizeof(char) * 8);
-    char* dString = malloc(sizeof(char)); // decoded string if the size if not enough, then realloc size
     long rByte = 0; // the bytes needed for writing the string with the original coding tree
     int rBit = 0; // the remaining bits needed for writing the string with the original coding tree
     writeLabel(rTree, label, &pos, 1);
     printPre(rTree);
-    long decodeByte = decoded(fp, rTree, dString, totalByte, treeByte, stringByte, &rByte, &rBit); // get decoded string, file closes here
-
+    long decodeByte = 0;
+    char* dString = decoded(fp, rTree, &decodeByte, totalByte, treeByte, stringByte, &rByte, &rBit); // get decoded string, file closes here
     if(decodeByte != stringByte){
         fprintf(stderr, "Unable to decode the original string.");
         return EXIT_FAILURE;

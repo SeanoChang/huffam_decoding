@@ -48,25 +48,26 @@ char readBitToChar(char* pattern){
     return (char)rtv;
 }
 
-long decoded(FILE* fp, TreeNode* tn, char* ds, long totalByte, long treeByte, long stringByte, long* byte, int* bit){
+char* decoded(FILE* fp, TreeNode* tn, long* readCount, long totalByte, long treeByte, long stringByte, long* byte, int* bit){
     if(fp == NULL){
         fprintf(stderr, "File pointer does not have a reference.");
         return 0;
     }
+    char* ds = malloc(sizeof(char)); // the decoded string to return
 
     long toGet = totalByte - treeByte - 3*sizeof(long);
 
     int* ptn = malloc(sizeof(int) * toGet*8); // the pattern to be decoded
 
     char oneByte;
-    long readCount = 0;
+    *readCount = 0;
     fseek(fp, -1, SEEK_CUR);
-    while(fread(&oneByte, sizeof(char), 1, fp) != 0 && readCount <= toGet){
+    while(fread(&oneByte, sizeof(char), 1, fp) != 0 && *readCount <= toGet){
         for(int i = 0; i < 8;i++){
-            ptn[i + readCount*8] = oneByte & 1;
+            ptn[i + *readCount*8] = oneByte & 1;
             oneByte = oneByte >> 1;
         }    
-        readCount++;
+        *readCount += 1;
     }
     printf("\n");
     for(int i = 0; i < toGet*8; i++){
@@ -74,36 +75,35 @@ long decoded(FILE* fp, TreeNode* tn, char* ds, long totalByte, long treeByte, lo
     }
     printf("\n");
 
-    readCount = 0;
+    *readCount = 0;
     long pos = 0;
     int i = 0;
     ds[0] = '\0';
-    while(readCount < stringByte){
+    while(*readCount < stringByte){
         int len = strlen(ds);
-        if(len < readCount+1){
+        if(len < *readCount+1){
             char* temp = realloc(ds, sizeof(char)*len*2);
             if(temp != NULL){
                 ds = temp;
             }
         }
         ds[i] = getChar(tn, ptn, &pos); // ds stands for decoded string.
-        printf("this is %c\n", ds[i]);
         if(ds[i] == '\0'){
             return 0;
         }
-        readCount++;
+        i++;
+        *readCount += 1;
     }
 
     *byte = pos / 8;
     *bit = pos % 8;
-	
+	printf("I got this string: %s\n", ds);
 	fclose(fp);
-    return readCount;
+    return ds;
 }
 
 char getChar(TreeNode* root, int* ptn, long* pos){
     if(root -> leaf == 1){
-        printf("im here %c and ", root -> value);
         return root->value;
     }
 

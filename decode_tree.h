@@ -11,7 +11,7 @@ char readBitToChar(char*);
 Read the input bit pattern and turn it into a char to store in a treenode
 */
 
-long decoded(FILE*, TreeNode*, char*, long, long, long, long*, int*);
+char* decoded(FILE*, TreeNode*, long*, long, long, long, long*, int*);
 
 char getChar(TreeNode*, int*, long*);
 #endif
