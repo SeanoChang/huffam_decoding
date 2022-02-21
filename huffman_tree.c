@@ -58,7 +58,9 @@ void writeLabel(TreeNode* tn, char* label, long *pos, int level){
 	if(tn->leaf == 1){
         tn->label = malloc(sizeof(char)*(level-1));
         tn->labelBit = level - 1;
-        strncpy(tn->label, label, level);
+        for(int i = 0; i < level; i++){
+            tn->label[i] = label[i];
+        }
         return;
     }
 
@@ -72,11 +74,10 @@ void writeLabel(TreeNode* tn, char* label, long *pos, int level){
     *pos -= 1;
 }
 
-void evaluateTree(TreeNode* tn, char* ds, long* bit){ // decoded string
-    for(int i = 0; i < strlen(ds); i++){
+void evaluateTree(TreeNode* tn, long* stringByte, char* ds, long* bit){ // decoded string
+    for(int i = 0; i < *stringByte; i++){
         long toAdd = 0;
         findBitSize(tn, ds[i], &toAdd);
-        printf("\n%c bit size and label: %ld\n", ds[i], toAdd);
         *bit += toAdd;
     }
 }

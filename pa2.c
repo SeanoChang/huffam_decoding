@@ -7,20 +7,6 @@
 #include "char_list.h"
 #include "decode_tree.h"
 
-void printPre(TreeNode* tn){
-    if(tn == NULL){
-        return;
-    }
-
-    printf("%d", tn->leaf);
-    if(tn -> leaf == 1){
-        printf("%c\n", tn->value);
-        printf("this is label: %s\n", tn->label);
-    }
-    printPre(tn->left);
-    printPre(tn->right);
-}
-
 int main(int argc, char** argv){
     if(argc != 7){
         fprintf(stderr, "Incorrect input files number");
@@ -53,7 +39,6 @@ int main(int argc, char** argv){
     long rByte = 0; // the bytes needed for writing the string with the original coding tree
     int rBit = 0; // the remaining bits needed for writing the string with the original coding tree
     writeLabel(rTree, label, &pos, 1);
-    printPre(rTree);
     long strLen = 0; // length of the decoded string
     char* dString = decoded(fp, rTree, &strLen, totalByte, treeByte, stringByte, &rByte, &rBit); // get decoded string, file closes here
     if(strLen != stringByte){
@@ -84,7 +69,7 @@ int main(int argc, char** argv){
     }
 
     long hTreeBit = 0;
-    evaluateTree(hTree, dString, &hTreeBit);
+    evaluateTree(hTree, &stringByte, dString, &hTreeBit);
     if(writeOutput5(argv[6], rByte, rBit, hTreeBit) == false){
         fprintf(stderr, "Unable to write the eval file.");
         return EXIT_FAILURE;

@@ -32,11 +32,7 @@ int* readBitPattern(FILE* fp, long* totalByte, long* treeByte, long* stringByte)
         }    
         readCount++;
     }
-    printf("the bit pattern read from the file is: ");
-    for(int i = 0; i < *treeByte*8; i++){
-        printf("%d", bitPatterns[i]);
-    }
-	printf("\n");
+
     return bitPatterns;
 }
 
@@ -74,11 +70,6 @@ char* decoded(FILE* fp, TreeNode* tn, long* stringLen, long totalByte, long tree
         }    
         readCount++;
     }
-    printf("\n");
-    for(int i = 0; i < toGet*8; i++){
-        printf("%d", ptn[i]);
-    }
-    printf("\n");
 
     readCount = 0;
     long pos = 0;
@@ -86,8 +77,8 @@ char* decoded(FILE* fp, TreeNode* tn, long* stringLen, long totalByte, long tree
     long len = 1;
     while(readCount < stringByte){
         if(len < readCount+1){
-            char* temp = realloc(ds, sizeof(char)*len+1);
-            len++;
+            char* temp = realloc(ds, sizeof(char)*len*2);
+            len *= 2;
             if(temp != NULL){
                 ds = temp;
             }
@@ -103,7 +94,6 @@ char* decoded(FILE* fp, TreeNode* tn, long* stringLen, long totalByte, long tree
     *stringLen = readCount;
     *byte = pos / 8;
     *bit = pos % 8;
-	printf("I got this string: %s\n", ds);
     free(ptn);
 	fclose(fp);
     return ds;
