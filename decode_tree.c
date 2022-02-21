@@ -81,8 +81,8 @@ char* decoded(FILE* fp, TreeNode* tn, long* stringLen, long totalByte, long tree
     long len = 1;
     while(readCount < stringByte){
         if(len < readCount+1){
-            char* temp = realloc(ds, sizeof(char)*len*2);
-            len *= 2;
+            char* temp = realloc(ds, sizeof(char)*len+1);
+            len++;
             if(temp != NULL){
                 ds = temp;
             }
@@ -99,6 +99,7 @@ char* decoded(FILE* fp, TreeNode* tn, long* stringLen, long totalByte, long tree
     *byte = pos / 8;
     *bit = pos % 8;
 	printf("I got this string: %s\n", ds);
+    free(ptn);
 	fclose(fp);
     return ds;
 }

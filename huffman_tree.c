@@ -94,7 +94,7 @@ void evaluateTree(TreeNode* tn, char* ds, long* byte, int* bit){ // decoded stri
             byte += strlen(ch[(int)(ds[i])]);
         } else{
             char* label = getLabel(&ds[i], (char)i, tn);
-            strncpy(ch[(int)(ds[i])], label, strlen(label));
+            strcpy(ch[(int)(ds[i])], label);
         }
     }
 
