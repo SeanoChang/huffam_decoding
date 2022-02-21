@@ -3,9 +3,9 @@
 
 long* countChar(char*);
 
-Node* makeSortedLL(long*);
+HeadNode* makeSortedLL(long*);
 
-bool addNode(Node*, TreeNode*);
+bool addNode(HeadNode*, TreeNode*);
 
 Node* buildNode(TreeNode*);
 

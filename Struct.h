@@ -14,4 +14,8 @@ typedef struct Node{
     TreeNode* tnptr;
     struct Node* next;
 } Node;
+
+typedef struct HeadNode{
+    Node* head;
+} HeadNode;
 #endif

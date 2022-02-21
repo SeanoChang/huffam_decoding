@@ -23,46 +23,36 @@ long* countChar(char* dString){
     return count;
 }
 
-Node* makeSortedLL(long * charCount){
-    Node* head = NULL;
+HeadNode* makeSortedLL(long * charCount){
+    HeadNode* header = malloc(sizeof(HeadNode));
+    header -> head = NULL;
     for(int i =0; i < 256; i++){
         if(charCount[i] > 0){
-            if(!addNode(head, buildTreeNode((char)(i), charCount[i], 1))){
+            if(!addNode(header, buildTreeNode((char)(i), charCount[i], 1))){
                 fprintf(stderr, "Cannot add node and build tree.");
                 return NULL;
             }
         }
     }
 
-   return head;
+   return header;
 }
 
-bool addNode(Node* head, TreeNode * tn){
-	if(head == NULL){
+bool addNode(HeadNode* hdr, TreeNode * tn){
+	if(hdr -> head == NULL){
 		Node * node = buildNode(tn);
-		head = node;
+		hdr -> head = node;
 		return true;
 	}
 
-	Node* cur = head; //current position
+	Node* cur = hdr -> head; //current position
 	Node* nex = cur -> next; //next to current position
-	if(nex == NULL){
-        Node* node = buildNode(tn);
-        if(tn -> count < cur -> tnptr -> count){
-            head = node;
-            node -> next = cur;
-        } else if(tn -> count == cur -> tnptr -> count && (int)(tn->value) < (int)(cur->tnptr->value)){
-            head = node;
-            node -> next = cur;
-        } else {
-            cur -> next = node;
-        }
-        return true;
-    }
 
     while(nex != NULL){
-        if(tn -> count < cur -> tnptr -> count){
-            Node* node = buildNode(tn);
+        if(tn->count < cur->tnptr->count){
+            TreeNode* temp = cur -> tnptr;
+            Node* node = buildNode(temp);
+            cur -> tnptr = tn;
             cur -> next = node;
             node -> next = nex;
             return true;
@@ -71,12 +61,13 @@ bool addNode(Node* head, TreeNode * tn){
         nex = nex -> next;
     }
    
-   if(tn -> count < cur -> tnptr -> count){
-        Node* node = buildNode(tn);
-        cur -> next = node;
-        node -> next = nex;
-        return true;
-    }
+	if(tn->count < cur->tnptr->count){
+        TreeNode* temp = cur->tnptr;
+		Node* node = buildNode(temp);
+        cur->tnptr = tn;
+        cur->next = node;
+		return true;
+	}
 
 	Node * node = buildNode(tn);
 	cur->next = node;

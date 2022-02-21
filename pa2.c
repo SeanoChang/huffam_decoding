@@ -74,8 +74,8 @@ int main(int argc, char** argv){
     }
 
     pos = 0;
-    Node* head = makeSortedLL(characters); // linked list for building huffman tree
-    TreeNode* hTree = buildHuffTree(head); // the huffman tree to be encoded
+    HeadNode* header = makeSortedLL(characters); // header points to the linked list for building huffman tree
+    TreeNode* hTree = buildHuffTree(header); // the huffman tree to be encoded
     writeLabel(hTree, label, &pos, 1);
     free(label); // free  label after using
     if(writeOutput4(argv[5], hTree) == false){
