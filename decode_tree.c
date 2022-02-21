@@ -32,7 +32,11 @@ int* readBitPattern(FILE* fp, long* totalByte, long* treeByte, long* stringByte)
         }    
         readCount++;
     }
-	
+    printf("the bit pattern read from the file is: ");
+    for(int i = 0; i < *treeByte*8; i++){
+        printf("%d", bitPatterns[i]);
+    }
+	printf("\n");
     return bitPatterns;
 }
 
@@ -53,6 +57,7 @@ char* decoded(FILE* fp, TreeNode* tn, long* stringLen, long totalByte, long tree
         fprintf(stderr, "File pointer does not have a reference.");
         return 0;
     }
+
     char* ds = malloc(sizeof(char)); // the decoded string to return
 
     long toGet = totalByte - treeByte - 3*sizeof(long);

@@ -12,8 +12,13 @@ $(EXEC): $(OBJS) $(HOBJS)
 
 test: $(EXEC)
 	mkdir outputs
-	./pa2 pa2_examples/encoded/gophers_nonhuff.hbt outputs/gophers_huff.tree outputs/gophers.ori outputs/gophers.count outputs/gophers.htree outputs/gophers.eval
-
+	./pa2 pa2_examples/encoded/gophers_nonhuff.hbt outputs/gophers.tree outputs/gophers.ori outputs/gophers.count outputs/gophers.htree outputs/gophers.eval
+	diff outputs/gophers.tree pa2_examples/tree/gophers_nonhuff.tree
+	diff outputs/gophers.ori pa2_examples/decoded/gophers
+	diff outputs/gophers.count pa2_examples/count/gophers.count
+	diff outputs/gophers.htree pa2_examples/tree/gophers_huff.tree
+	diff outputs/gophers.eval pa2_examples/eval/gophers_nonhuff.eval
+	
 memory: $(EXEC)
 	mkdir moutputs
 	$(VALGRIND) ./$(EXEC) pa2_examples/encoded/gophers_nonhuff.hbt moutputs/gohers_huff.tree moutputs/gophers.ori moutputs/gophers.count moutputs/gophers.htree moutputs/gophers.eval

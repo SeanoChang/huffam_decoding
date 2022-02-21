@@ -44,6 +44,7 @@ bool addNode(HeadNode* hdr, TreeNode * tn){
 		hdr -> head = node;
 		return true;
 	}
+    printf("\nnode to be added: %c\ncount is: %ld\n", tn->value, tn->count);
 
 	Node* cur = hdr -> head; //current position
 	Node* nex = cur -> next; //next to current position
@@ -76,6 +77,7 @@ bool addNode(HeadNode* hdr, TreeNode * tn){
 
 Node* buildNode(TreeNode * tn){
    Node * nd = malloc(sizeof(Node));
+   printf("the count for %c: %ld\n", tn->value, tn->count);
    nd -> tnptr = tn;
    nd -> next = NULL;
    return nd;

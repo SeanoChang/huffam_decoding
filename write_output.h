@@ -19,5 +19,5 @@ bool writeOutput3(char*, long*);
 
 bool writeOutput4(char*, TreeNode*);
 
-bool writeOutput5(char*, long, int, long ,int);
+bool writeOutput5(char*, long, int, long);
 #endif

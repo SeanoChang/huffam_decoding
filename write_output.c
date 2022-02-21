@@ -65,12 +65,14 @@ bool writeOutput4(char* outfile4, TreeNode* tn){
     return true;
 }
 
-bool writeOutput5(char*outfile5, long rByte, int rBit, long hByte, int hBit){
+bool writeOutput5(char*outfile5, long rByte, int rBit, long hTreeBit){
     FILE * fp = fopen(outfile5, "wb");
     if(fp == NULL){
         fprintf(stderr, "Cannot open output file 5.");
         return false;
     }
+    long hByte = hTreeBit / 8;
+    int hBit = hTreeBit % 8;
 
     fwrite(&rByte, sizeof(long), 1, fp);
     fwrite(&rBit, sizeof(int), 1, fp);

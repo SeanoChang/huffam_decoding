@@ -83,16 +83,14 @@ int main(int argc, char** argv){
         return EXIT_FAILURE;
     }
 
-    long hByte = 0;
-    int hBit = 0;
-    evaluateTree(hTree, dString, &hByte, &hBit);
-    if(writeOutput5(argv[6], rByte, rBit, hByte, hBit) == false){
+    long hTreeBit = 0;
+    evaluateTree(hTree, dString, &hTreeBit);
+    if(writeOutput5(argv[6], rByte, rBit, hTreeBit) == false){
         fprintf(stderr, "Unable to write the eval file.");
         return EXIT_FAILURE;
     }
 	fclose(fp);
     destroyTree(hTree);
-    free(label);
     free(dString);
 
     return EXIT_SUCCESS;

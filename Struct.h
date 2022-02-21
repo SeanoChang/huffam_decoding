@@ -6,6 +6,7 @@ typedef struct TreeNode {
     long count;
     int leaf;
     char* label;
+    int labelBit;
     struct TreeNode* left;
     struct TreeNode* right;
 } TreeNode;

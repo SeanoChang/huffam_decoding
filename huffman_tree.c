@@ -7,7 +7,6 @@
 #include "char_list.h"
 #include "huffman_tree.h"
 
-
 TreeNode* buildCodingTree(int* bp, long* pos, long terminate){
     if(bp[*pos] == 1){
         char pattern[9] = {'\0'};
@@ -58,6 +57,7 @@ void writeLabel(TreeNode* tn, char* label, long *pos, int level){
     }
 	if(tn->leaf == 1){
         tn->label = malloc(sizeof(char)*(level-1));
+        tn->labelBit = level - 1;
         strncpy(tn->label, label, level);
         return;
     }
@@ -72,42 +72,26 @@ void writeLabel(TreeNode* tn, char* label, long *pos, int level){
     *pos -= 1;
 }
 
-void evaluateTree(TreeNode* tn, char* ds, long* byte, int* bit){ // decoded string
-    char** ch = malloc(sizeof(char*)*256);
-    if(ch == NULL){
-        fprintf(stderr, "Unable to malloc string array for evaluation.");
-        return;
+void evaluateTree(TreeNode* tn, char* ds, long* bit){ // decoded string
+    for(int i = 0; i < strlen(ds); i++){
+        long toAdd = 0;
+        findBitSize(tn, ds[i], &toAdd);
+        printf("\n%c bit size and label: %ld\n", ds[i], toAdd);
+        *bit += toAdd;
     }
-    for(int i = 0; i < 256; i++){
-        ch[i] = malloc(sizeof(char)*8);
-        if(ch[i] == NULL){
-            fprintf(stderr, "Unable to malloc char array for evaluation.");
-            return;
-        }
-        ch[i][0] = '\0';
-    }
-
-    long len = strlen(ds);
-
-    for(int i = 0; i < len; i++){
-        if(ch[(int)(ds[i])][0] != '\0'){
-            byte += strlen(ch[(int)(ds[i])]);
-        } else{
-            char* label = getLabel(&ds[i], (char)i, tn);
-            strcpy(ch[(int)(ds[i])], label);
-        }
-    }
-
-    *bit = *byte % 8;
-    *byte = *byte / 8;
-
-    for(int i = 0; i < 256; i++){
-        free(ch[i]);
-    }
-
-    free(ch);
 }
 
+void findBitSize(TreeNode* tn, char c, long* rtv){
+    if(tn->leaf == 1){
+        if(tn->value == c){
+            *rtv = tn->labelBit;
+            return;
+        }
+        return;
+    } 
+    findBitSize(tn -> left, c, rtv);
+    findBitSize(tn -> right, c, rtv);
+}
 
 TreeNode* buildTreeNode(char value, long count, int leaf){
     TreeNode* root = malloc(sizeof(TreeNode));
@@ -115,8 +99,9 @@ TreeNode* buildTreeNode(char value, long count, int leaf){
     if(root != NULL){
         root -> value = value;
         root -> leaf = leaf;
-        root -> count = 0;
+        root -> count = count;
         root -> label = NULL;
+        root -> labelBit = 0;
         root -> left = NULL;
         root -> right = NULL;
     }
