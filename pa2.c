@@ -74,7 +74,10 @@ int main(int argc, char** argv){
         fprintf(stderr, "Unable to write the eval file.");
         return EXIT_FAILURE;
     }
-	fclose(fp);
+    free(header->head);
+    free(header);
+    free(bitPatterns);
+    free(characters);
     destroyTree(hTree);
     free(dString);
 
