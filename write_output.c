@@ -10,7 +10,7 @@ void writePreOrder(FILE*, TreeNode*);
 bool writeOutput1(char* outfile1, TreeNode* tn){ // tn stands for treenode
     FILE * fp = fopen(outfile1, "w");
     if(fp == NULL){
-        fprintf(stderr, "Cannot open output file 1.");
+        fprintf(stderr, "Cannot open output file 1.\n");
         return false;
     }
 
@@ -22,13 +22,13 @@ bool writeOutput1(char* outfile1, TreeNode* tn){ // tn stands for treenode
 bool writeOutput2(char* outfile2, char* ds, long strLen){ // ds stands for decoded string
     FILE * fp = fopen(outfile2, "w");
     if(fp == NULL){
-        fprintf(stderr, "Cannot open output file 2.");
+        fprintf(stderr, "Cannot open output file 2.\n");
         return false;
     }
 
     for(int i = 0; i < strLen; i++){
         if(fprintf(fp, "%c", ds[i]) != 1){
-            fprintf(stderr, "Cannot write into file.");
+            fprintf(stderr, "Cannot write into file.\n");
             return false;
         }
     }
@@ -40,12 +40,12 @@ bool writeOutput2(char* outfile2, char* ds, long strLen){ // ds stands for decod
 bool writeOutput3(char* outfile3, long* count){
     FILE * fp = fopen(outfile3, "wb");
     if(fp == NULL){
-        fprintf(stderr, "Cannot open output file 3.");
+        fprintf(stderr, "Cannot open output file 3.\n");
         return false;
     }
 
     if(fwrite(count, sizeof(long), 256, fp) == 0){
-        fprintf(stderr, "Cannot write output to output file 3.");
+        fprintf(stderr, "Cannot write output to output file 3.\n");
         fclose(fp);
         return false;
     }
@@ -56,7 +56,7 @@ bool writeOutput3(char* outfile3, long* count){
 bool writeOutput4(char* outfile4, TreeNode* tn){
     FILE * fp = fopen(outfile4, "w");
     if(fp == NULL){
-        fprintf(stderr, "Cannot open output file 4.");
+        fprintf(stderr, "Cannot open output file 4.\n");
         return false;
     }
 
@@ -68,7 +68,7 @@ bool writeOutput4(char* outfile4, TreeNode* tn){
 bool writeOutput5(char*outfile5, long rByte, int rBit, long hTreeBit){
     FILE * fp = fopen(outfile5, "wb");
     if(fp == NULL){
-        fprintf(stderr, "Cannot open output file 5.");
+        fprintf(stderr, "Cannot open output file 5.\n");
         return false;
     }
     long hByte = hTreeBit / 8;

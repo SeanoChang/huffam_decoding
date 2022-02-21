@@ -26,13 +26,6 @@ test: $(EXEC)
 	diff outputs/gophers1.htree pa2_examples/tree/gophers_huff.tree
 	diff outputs/gophers1.eval pa2_examples/eval/gophers_huff.eval
 
-	./pa2 pa2_examples/encoded/binary1_nonhuff.hbt outputs/binary1.tree outputs/binary1.ori outputs/binary1.count outputs/binary1.htree outputs/binary1.eval
-	diff outputs/binary1.tree pa2_examples/tree/binary1_nonhuff.tree
-	diff outputs/binary1.ori pa2_examples/decoded/binary1
-	diff outputs/binary1.count pa2_examples/count/binary1.count
-	diff outputs/binary1.htree pa2_examples/tree/binary1_huff.tree
-	diff outputs/binary1.eval pa2_examples/eval/binary1_nonhuff.eval
-
 	./pa2 pa2_examples/encoded/lorum_nonhuff.hbt outputs/lorum.tree outputs/lorum.ori outputs/lorum.count outputs/lorum.htree outputs/lorum.eval
 	diff outputs/lorum.tree pa2_examples/tree/lorum_nonhuff.tree
 	diff outputs/lorum.ori pa2_examples/decoded/lorum
@@ -50,13 +43,13 @@ test: $(EXEC)
 	./pa2 pa2_examples/encoded/woods_nonhuff.hbt outputs/woods.tree outputs/woods.ori outputs/woods.count outputs/woods.htree outputs/woods.eval
 	diff outputs/woods.tree pa2_examples/tree/woods_nonhuff.tree
 	diff outputs/woods.ori pa2_examples/decoded/woods
-	diff outputs/woods.count pa2_examples/count/gwoods.count
+	diff outputs/woods.count pa2_examples/count/woods.count
 	diff outputs/woods.htree pa2_examples/tree/woods_huff.tree
 	diff outputs/woods.eval pa2_examples/eval/woods_nonhuff.eval
 	
 memory: $(EXEC)
 	mkdir moutputs
-	$(VALGRIND) ./$(EXEC) ./pa2 pa2_examples/encoded/binary1_nonhuff.hbt outputs/binary1.tree outputs/binary1.ori outputs/binary1.count outputs/binary1.htree outputs/binary1.eval
+	$(VALGRIND) ./$(EXEC) pa2_examples/encoded/binary1_nonhuff.hbt outputs/binary1.tree outputs/binary1.ori outputs/binary1.count outputs/binary1.htree outputs/binary1.eval
 
 %.o : %.c
 	$(GCC) -c $< 

@@ -9,7 +9,7 @@
 
 int main(int argc, char** argv){
     if(argc != 7){
-        fprintf(stderr, "Incorrect input files number");
+        fprintf(stderr, "Incorrect input files number.\n");
         return EXIT_FAILURE;
     }
 
@@ -17,7 +17,7 @@ int main(int argc, char** argv){
     FILE* fp = fopen(argv[1], "rb"); 
     if(fp == NULL){
         fclose(fp);
-        fprintf(stderr, "Cannot open input file for reading!");
+        fprintf(stderr, "Cannot open input file for reading!\n");
         return EXIT_FAILURE;
     }
 
@@ -29,45 +29,57 @@ int main(int argc, char** argv){
     long pos = 0; // the position for writing bit pattern array
     TreeNode* rTree = buildCodingTree(bitPatterns, &pos, treeByte);// reconstructed tree from the input file
 
+    /* write output 1 */
     if(writeOutput1(argv[2], rTree) == false){
-        fprintf(stderr, "Unable to write the tree file");
+        fprintf(stderr, "Unable to write the tree file.\n");
         return EXIT_FAILURE;
     }
 
     pos = 0;
-    char* label = malloc(sizeof(char) * 8);
+    char* label = malloc(sizeof(char) * 8); // temp location for storing characters' coding tree label
     long rByte = 0; // the bytes needed for writing the string with the original coding tree
     int rBit = 0; // the remaining bits needed for writing the string with the original coding tree
+
+    /* write label for each leaf node */
     writeLabel(rTree, label, &pos, 1);
+
     long strLen = 0; // length of the decoded string
     char* dString = decoded(fp, rTree, &strLen, totalByte, treeByte, stringByte, &rByte, &rBit); // get decoded string, file closes here
+    
+    /* write output 2 */
     if(writeOutput2(argv[3], dString, strLen) == false){
-        fprintf(stderr, "Unable to write the ori file");
+        fprintf(stderr, "Unable to write the ori file.\n");
         return EXIT_FAILURE;
     }
-    destroyTree(rTree); // destroy reconstructed tree after using 
-
 
     long* characters = countChar(dString, stringByte); // count each acsii characters 
+
+     /* output the count for each ascii characters */
     if(writeOutput3(argv[4], characters) == false){
-        fprintf(stderr, "Unable to write the count file.");
+        fprintf(stderr, "Unable to write the count file.\n");
         return EXIT_FAILURE;
     }
 
-    pos = 0;
+    /* build the new huffman tree */
+    pos = 0; 
     HeadNode* header = makeSortedLL(characters); // header points to the linked list for building huffman tree
     TreeNode* hTree = buildHuffTree(header); // the huffman tree to be encoded
     writeLabel(hTree, label, &pos, 1);
-    free(label); // free  label after using
+    
+
+    /* write output 4 */
     if(writeOutput4(argv[5], hTree) == false){
-        fprintf(stderr, "Unable to wirte the htree file.");
+        fprintf(stderr, "Unable to wirte the htree file.\n");
         return EXIT_FAILURE;
     }
 
+    /* return the total bit needed for the wrtiting string with the huffman tree to hTreeBit */
     long hTreeBit = 0;
-    evaluateTree(hTree, stringByte, dString, &hTreeBit);
+    evaluateTree(hTree, stringByte, dString, &hTreeBit); 
+
+    /* write output 5 */
     if(writeOutput5(argv[6], rByte, rBit, hTreeBit) == false){
-        fprintf(stderr, "Unable to write the eval file.");
+        fprintf(stderr, "Unable to write the eval file.\n");
         return EXIT_FAILURE;
     }
 
@@ -76,6 +88,8 @@ int main(int argc, char** argv){
     free(header);
     free(bitPatterns);
     free(characters);
+    free(label);
+    destroyTree(rTree); 
     destroyTree(hTree);
     free(dString);
 
