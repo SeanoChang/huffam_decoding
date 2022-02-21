@@ -30,8 +30,8 @@ TreeNode* buildCodingTree(int* bp, long* pos, long terminate){
     return rtv;
 }
 
-TreeNode* buildHuffTree(Header* charList){
-    Node* cur = charList -> head;
+TreeNode* buildHuffTree(Node* charList){
+    Node* cur = charList;
     Node* nex = cur -> next;
 
     while(nex != NULL){
@@ -48,7 +48,7 @@ TreeNode* buildHuffTree(Header* charList){
         nex = nex -> next;
     }
 
-    return charList->head->tnptr;
+    return charList->tnptr;
 }
 
 
@@ -142,5 +142,6 @@ void destroyTree(TreeNode* tn){
 
     destroyTree(tn -> left);
     destroyTree(tn -> right);
+    free(tn -> label);
     free(tn);
 }

@@ -23,47 +23,39 @@ long* countChar(char* dString){
     return count;
 }
 
-Header* makeSortedLL(long * charCount){
-    Header* hdr = malloc(sizeof(Header));
-    if(hdr == NULL){
-        fprintf(stderr, "Unable to initialize header for char linked list.");
-        return NULL;
-    }
-    hdr->head = NULL;
-    hdr->tail = NULL;
+Node* makeSortedLL(long * charCount){
+    Node* head = NULL;
     for(int i =0; i < 256; i++){
         if(charCount[i] > 0){
-            if(!addNode(hdr, buildTreeNode((char)(i), charCount[i], '1'))){
+            if(!addNode(head, buildTreeNode((char)(i), charCount[i], 1))){
                 fprintf(stderr, "Cannot add node and build tree.");
                 return NULL;
             }
         }
     }
 
-   return hdr;
+   return head;
 }
 
-bool addNode(Header* hdr, TreeNode * tn){
-	if(hdr -> head == NULL){
+bool addNode(Node* head, TreeNode * tn){
+	if(head == NULL){
 		Node * node = buildNode(tn);
-		hdr -> head = node;
-        hdr -> tail = node;
+		head = node;
 		return true;
 	}
 
-	Node* cur = hdr -> head; //current position
-	Node* nex = hdr -> head -> next; //next to current position
+	Node* cur = head; //current position
+	Node* nex = cur -> next; //next to current position
 	if(nex == NULL){
         Node* node = buildNode(tn);
         if(tn -> count < cur -> tnptr -> count){
-            hdr -> head = node;
+            head = node;
             node -> next = cur;
         } else if(tn -> count == cur -> tnptr -> count && (int)(tn->value) < (int)(cur->tnptr->value)){
-            hdr -> head = node;
+            head = node;
             node -> next = cur;
         } else {
             cur -> next = node;
-            hdr -> tail = node;
         }
         return true;
     }
@@ -73,7 +65,6 @@ bool addNode(Header* hdr, TreeNode * tn){
             Node* node = buildNode(tn);
             cur -> next = node;
             node -> next = nex;
-            if(nex == NULL) hdr -> tail = node;
             return true;
         }
         cur = cur -> next;
@@ -83,7 +74,6 @@ bool addNode(Header* hdr, TreeNode * tn){
 	Node * node = buildNode(tn);
 	cur->next = node;
     node->next = nex;
-    if(nex == NULL) hdr -> tail = node;
 	return true;
 }
 

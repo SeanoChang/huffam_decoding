@@ -3,7 +3,7 @@
 
 TreeNode* buildCodingTree(int*, long*,long);
 
-TreeNode* buildHuffTree(Header*);
+TreeNode* buildHuffTree(Node*);
 
 void writeLabel(TreeNode*, char*, long*, int);
 
