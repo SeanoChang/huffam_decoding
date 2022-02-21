@@ -41,10 +41,6 @@ int main(int argc, char** argv){
     writeLabel(rTree, label, &pos, 1);
     long strLen = 0; // length of the decoded string
     char* dString = decoded(fp, rTree, &strLen, totalByte, treeByte, stringByte, &rByte, &rBit); // get decoded string, file closes here
-    if(strLen != stringByte){
-        fprintf(stderr, "Unable to decode the original string.");
-        return EXIT_FAILURE;
-    }
     if(writeOutput2(argv[3], dString, strLen) == false){
         fprintf(stderr, "Unable to write the ori file");
         return EXIT_FAILURE;
