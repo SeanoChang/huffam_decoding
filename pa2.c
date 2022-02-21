@@ -52,7 +52,7 @@ int main(int argc, char** argv){
     destroyTree(rTree); // destroy reconstructed tree after using 
 
 
-    long* characters = countChar(dString); // count each acsii characters 
+    long* characters = countChar(dString, stringByte); // count each acsii characters 
     if(writeOutput3(argv[4], characters) == false){
         fprintf(stderr, "Unable to write the count file.");
         return EXIT_FAILURE;
@@ -69,11 +69,13 @@ int main(int argc, char** argv){
     }
 
     long hTreeBit = 0;
-    evaluateTree(hTree, &stringByte, dString, &hTreeBit);
+    evaluateTree(hTree, stringByte, dString, &hTreeBit);
     if(writeOutput5(argv[6], rByte, rBit, hTreeBit) == false){
         fprintf(stderr, "Unable to write the eval file.");
         return EXIT_FAILURE;
     }
+
+    /* free all malloc */
     free(header->head);
     free(header);
     free(bitPatterns);

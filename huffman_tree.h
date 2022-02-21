@@ -9,7 +9,7 @@ void writeLabel(TreeNode*, char*, long*, int);
 
 TreeNode* buildTreeNode(char, long, int);
 
-void evaluateTree(TreeNode*, long*, char*, long*);
+void evaluateTree(TreeNode*, long, char*, long*);
 
 void findBitSize(TreeNode*, char, long*);
 

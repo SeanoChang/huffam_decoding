@@ -74,8 +74,8 @@ void writeLabel(TreeNode* tn, char* label, long *pos, int level){
     *pos -= 1;
 }
 
-void evaluateTree(TreeNode* tn, long* stringByte, char* ds, long* bit){ // decoded string
-    for(int i = 0; i < *stringByte; i++){
+void evaluateTree(TreeNode* tn, long stringByte, char* ds, long* bit){ // decoded string
+    for(int i = 0; i < stringByte; i++){
         long toAdd = 0;
         findBitSize(tn, ds[i], &toAdd);
         *bit += toAdd;

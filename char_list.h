@@ -1,7 +1,7 @@
 #ifndef CHAR_LIST_H
 #define CHAR_LIST_H
 
-long* countChar(char*);
+long* countChar(char*, long);
 
 HeadNode* makeSortedLL(long*);
 
