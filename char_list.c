@@ -60,8 +60,8 @@ bool addNode(Node* head, TreeNode * tn){
         return true;
     }
 
-    while(nex != NULL && tn->count <= nex->tnptr->count){
-        if(tn -> count == cur -> tnptr -> count && (int)(tn->value) > (int)(cur->tnptr->value)){
+    while(nex != NULL){
+        if(tn -> count < cur -> tnptr -> count){
             Node* node = buildNode(tn);
             cur -> next = node;
             node -> next = nex;
@@ -71,9 +71,15 @@ bool addNode(Node* head, TreeNode * tn){
         nex = nex -> next;
     }
    
+   if(tn -> count < cur -> tnptr -> count){
+        Node* node = buildNode(tn);
+        cur -> next = node;
+        node -> next = nex;
+        return true;
+    }
+
 	Node * node = buildNode(tn);
 	cur->next = node;
-    node->next = nex;
 	return true;
 }
 

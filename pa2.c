@@ -92,6 +92,7 @@ int main(int argc, char** argv){
     }
 	fclose(fp);
     destroyTree(hTree);
+    free(label);
     free(dString);
 
     return EXIT_SUCCESS;

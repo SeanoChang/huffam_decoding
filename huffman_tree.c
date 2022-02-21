@@ -30,15 +30,15 @@ TreeNode* buildCodingTree(int* bp, long* pos, long terminate){
     return rtv;
 }
 
-TreeNode* buildHuffTree(Node* charList){
-    Node* cur = charList;
+TreeNode* buildHuffTree(Node* head){
+    Node* cur = head;
     Node* nex = cur -> next;
 
     while(nex != NULL){
         TreeNode* tn = buildTreeNode('\0', cur->tnptr->count + nex->tnptr->count, 0);
         tn -> left = cur -> tnptr;
         tn -> right = nex -> tnptr;
-        if(!addNode(charList, tn)){
+        if(!addNode(head, tn)){
             fprintf(stderr, "Unable to build construct a huffman tree");
             return NULL;
         }
@@ -48,7 +48,7 @@ TreeNode* buildHuffTree(Node* charList){
         nex = nex -> next;
     }
 
-    return charList->tnptr;
+    return head->tnptr;
 }
 
 
