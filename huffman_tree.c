@@ -51,7 +51,7 @@ TreeNode* buildHuffTree(HeadNode* hdr){
 }
 
 
-void writeLabel(TreeNode* tn, char** label, long *pos, int level){ 
+void writeLabel(TreeNode* tn, char** label, long *pos, int* labelSize, int level){ 
     if(tn == NULL){
 	    return;
     }
@@ -64,13 +64,22 @@ void writeLabel(TreeNode* tn, char** label, long *pos, int level){
         return;
     }
 
+    if(level >= *labelSize){
+        char* temp = realloc(*label, sizeof(char)*(*labelSize*2));
+        if(temp != NULL){
+            *label = temp;
+        }
+        *labelSize *= 2;
+    }
+
+
     (*label)[*pos] = '0';
     *pos += 1;
-    writeLabel(tn -> left, label, pos, level+1);
+    writeLabel(tn -> left, label, pos, labelSize, level+1);
     *pos -= 1;
     (*label)[*pos] = '1';
     *pos += 1;
-    writeLabel(tn -> right, label, pos, level+1);
+    writeLabel(tn -> right, label, pos, labelSize, level+1);
     *pos -= 1;
 }
 

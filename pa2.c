@@ -36,8 +36,9 @@ int main(int argc, char** argv){
     }
 
     pos = 0;
-    char* label = malloc(sizeof(char) * 10); // temp location for storing characters' coding tree label
-    for(int i = 0; i < 10; i++) {
+    char* label = malloc(sizeof(char) * 9); // temp location for storing characters' coding tree label
+    int labelSize = 9;
+    for(int i = 0; i < 9; i++) {
         label[i] = '\0';
     }
 
@@ -45,7 +46,7 @@ int main(int argc, char** argv){
     int rBit = 0; // the remaining bits needed for writing the string with the original coding tree
 
     /* write label for each leaf node */
-    writeLabel(rTree, &label, &pos, 1);
+    writeLabel(rTree, &label, &pos, &labelSize, 1);
 
     long strLen = 0; // length of the decoded string
     char* dString = decoded(fp, rTree, &strLen, totalByte, treeByte, stringByte, &rByte, &rBit); // get decoded string, file closes here
@@ -72,10 +73,7 @@ int main(int argc, char** argv){
     pos = 0; 
     HeadNode* header = makeSortedLL(characters); // header points to the linked list for building huffman tree
     TreeNode* hTree = buildHuffTree(header); // the huffman tree to be encoded
-    for(int i = 0; i < 10; i++) {
-        label[i] = '\0';
-    }
-    writeLabel(hTree, &label, &pos, 1);
+    writeLabel(hTree, &label, &pos, &labelSize, 1);
     
 
     /* write output 4 */

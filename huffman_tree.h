@@ -8,7 +8,7 @@ TreeNode* buildCodingTree(int*, long*,long);
 TreeNode* buildHuffTree(HeadNode*);
 
 /* write label according to the coding tree */
-void writeLabel(TreeNode*, char**, long*, int);
+void writeLabel(TreeNode*, char**, long*, int*, int);
 
 TreeNode* buildTreeNode(char, long, int);
 
