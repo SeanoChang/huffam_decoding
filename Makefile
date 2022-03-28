@@ -56,7 +56,8 @@ test: $(EXEC)
 	
 memory: $(EXEC)
 	mkdir moutputs
-	$(VALGRIND) ./$(EXEC) pa2_examples/encoded/binary1_nonhuff.hbt outputs/binary1.tree outputs/binary1.ori outputs/binary1.count outputs/binary1.htree outputs/binary1.eval
+	$(VALGRIND) ./$(EXEC) pa2_examples/encoded/binary1_nonhuff.hbt moutputs/binary1.tree moutputs/binary1.ori moutputs/binary1.count moutputs/binary1.htree moutputs/binary1.eval
+	$(VALGRIND) ./$(EXEC) pa2_examples/encoded/woods_nonhuff.hbt moutputs/woods.tree moutputs/woods.ori moutputs/woods.count moutputs/woods.htree moutputs/woods.eval
 	
 %.o : %.c
 	$(GCC) -c $< 

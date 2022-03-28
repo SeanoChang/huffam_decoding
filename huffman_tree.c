@@ -56,7 +56,7 @@ void writeLabel(TreeNode* tn, char* label, long *pos, int level){
 	    return;
     }
 	if(tn->leaf == 1){
-        tn->label = malloc(sizeof(char)*(level));
+        tn->label = malloc(sizeof(char)*(level+1));
         tn->labelBit = level - 1;
         for(int i = 0; i < level; i++){
             tn->label[i] = label[i];

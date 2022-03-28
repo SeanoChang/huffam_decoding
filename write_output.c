@@ -45,9 +45,6 @@ bool writeOutput3(char* outfile3, long* count){
         return false;
     }
 
-    for(int i = 0; i<256; i++){
-        printf("%ld ", count[i]);
-    }
     printf("\n");
     if(fwrite(count, sizeof(long), 256, fp) == 0){
         fprintf(stderr, "Cannot write output to output file 3.\n");
