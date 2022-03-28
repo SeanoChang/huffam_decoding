@@ -37,6 +37,10 @@ int main(int argc, char** argv){
 
     pos = 0;
     char* label = malloc(sizeof(char) * 9); // temp location for storing characters' coding tree label
+    for(int i = 0; i < 9; i++) {
+        label[i] = '\0';
+    }
+
     long rByte = 0; // the bytes needed for writing the string with the original coding tree
     int rBit = 0; // the remaining bits needed for writing the string with the original coding tree
 
