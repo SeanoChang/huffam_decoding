@@ -54,7 +54,7 @@ char* decoded(FILE* fp, TreeNode* tn, long* stringLen, long totalByte, long tree
         return 0;
     }
 
-    char* ds = malloc(sizeof(char)); // the decoded string to return
+    char* ds = malloc(sizeof(char)*10); // the decoded string to return
 
     long toGet = totalByte - treeByte - 3*sizeof(long);
 
@@ -66,6 +66,7 @@ char* decoded(FILE* fp, TreeNode* tn, long* stringLen, long totalByte, long tree
     while(fread(&oneByte, sizeof(char), 1, fp) != 0 && readCount <= toGet){
         for(int i = 0; i < 8;i++){
             ptn[i + readCount*8] = oneByte & 1;
+            
             oneByte = oneByte >> 1;
         }    
         readCount++;
@@ -74,7 +75,7 @@ char* decoded(FILE* fp, TreeNode* tn, long* stringLen, long totalByte, long tree
     readCount = 0;
     long pos = 0;
     int i = 0;
-    long len = 1;
+    long len = 10;
     while(readCount < stringByte){
         if(len < readCount+1){
             char* temp = realloc(ds, sizeof(char)*len*2);
@@ -84,9 +85,7 @@ char* decoded(FILE* fp, TreeNode* tn, long* stringLen, long totalByte, long tree
             }
         }
         ds[i] = getChar(tn, ptn, &pos); // ds stands for decoded string.
-        if(ds[i] == '\0'){
-            return 0;
-        }
+        
         i++;
         readCount++;
     }

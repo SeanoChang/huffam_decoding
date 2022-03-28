@@ -45,7 +45,11 @@ int main(int argc, char** argv){
 
     long strLen = 0; // length of the decoded string
     char* dString = decoded(fp, rTree, &strLen, totalByte, treeByte, stringByte, &rByte, &rBit); // get decoded string, file closes here
-    
+    if(dString == NULL) {
+        fprintf(stderr, "Unable to decode the string.\n");
+        return EXIT_FAILURE;
+    }
+
     /* write output 2 */
     if(writeOutput2(argv[3], dString, strLen) == false){
         fprintf(stderr, "Unable to write the ori file.\n");

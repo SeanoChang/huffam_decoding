@@ -7,14 +7,23 @@
 #include "huffman_tree.h"
 
 long* countChar(char* dString, long len){
-    long* count = malloc(sizeof(long) * 256);
+    long* count = malloc(sizeof(long) * 257);
+    if(count == NULL) {
+        fprintf(stderr, "Unable to malloc a array for storing numbers of count for each ascii value.\n");
+        return NULL;
+    }
 
     for(int i = 0; i < 256; i++){
         count[i] = 0;
     }
-
+    if(dString == NULL) {
+        return NULL;
+    }
     for(int i = 0; i < len; i++){
         int c = (int)(dString[i]);
+        if(c < 0) {
+            c += 256;
+        }
         count[c]++;
     }
 
